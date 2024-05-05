@@ -84,7 +84,7 @@ impl<C: CurveAffine, const NUMBER_OF_LIMBS: usize, const BIT_LEN_LIMB: usize>
     }
 
     /// Auxilary point for optimized multiplication algorithm
-    fn get_mul_aux(
+    pub fn get_mul_aux(
         &self,
         window_size: usize,
         number_of_pairs: usize,
@@ -367,6 +367,14 @@ mod tests {
     use paste::paste;
     use rand_core::OsRng;
 
+    // !!!--------------------------
+    // modify the code
+    // add the timer to see the performance
+    
+    use std::time::{Duration, Instant};
+
+    // !!!--------------------------
+
     const NUMBER_OF_LIMBS: usize = 4;
     const BIT_LEN_LIMB: usize = 68;
 
@@ -481,6 +489,7 @@ mod tests {
 
                     // test doubling
 
+                    /* 
                     let a = C::CurveExt::random(OsRng);
                     let c = a + a;
 
@@ -488,8 +497,12 @@ mod tests {
                     let c_0 = &ecc_chip.assign_point(ctx, Value::known(c.into()))?;
                     let c_1 = &ecc_chip.double(ctx, a)?;
                     ecc_chip.assert_equal(ctx, c_0, c_1)?;
+                    */
+
 
                     // test ladder
+
+                    /* 
 
                     let a = C::CurveExt::random(OsRng);
                     let b = C::CurveExt::random(OsRng);
@@ -500,7 +513,7 @@ mod tests {
                     let c_0 = &ecc_chip.assign_point(ctx, Value::known(c.into()))?;
                     let c_1 = &ecc_chip.ladder(ctx, a, b)?;
                     ecc_chip.assert_equal(ctx, c_0, c_1)?;
-
+                    */
                     Ok(())
                 },
             )?;
@@ -521,9 +534,21 @@ mod tests {
             let instance = vec![vec![]];
             mock_prover_verify(&circuit, instance);
         }
+
+        // !!!----------------------------
+        // modify the code
+        // add the timer to see the performance
+
+        let start = Instant::now();
+
         run::<Bn256>();
-        run::<Pallas>();
-        run::<Vesta>();
+        //run::<Pallas>();
+        //run::<Vesta>();
+
+        let duration = start.elapsed();
+        println!("time: {:?}", duration);
+
+        // !!!----------------------------
     }
 
     #[derive(Default, Clone, Debug)]

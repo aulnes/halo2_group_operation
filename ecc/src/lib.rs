@@ -6,14 +6,18 @@
 pub use base_field_ecc::*;
 pub use general_ecc::*;
 
+
 /// Constraints for the SW curve that are used in the same proof system
 pub mod base_field_ecc;
 /// Constaints for any SW curve
 pub mod general_ecc;
 
+
 pub use integer;
 pub use integer::halo2;
 pub use integer::maingate;
+
+//use halo2::halo2curves as curves;
 
 #[cfg(test)]
 use halo2::halo2curves as curves;
@@ -128,8 +132,10 @@ impl<W: PrimeField, N: PrimeField, const NUMBER_OF_LIMBS: usize, const BIT_LEN_L
 /// Config for Ecc Chip
 #[derive(Clone, Debug)]
 pub struct EccConfig {
-    range_config: RangeConfig,
-    main_gate_config: MainGateConfig,
+    /// ...
+    pub range_config: RangeConfig,
+    /// ...
+    pub main_gate_config: MainGateConfig,
 }
 
 impl EccConfig {
@@ -235,10 +241,13 @@ impl<W: PrimeField, N: PrimeField, const NUMBER_OF_LIMBS: usize, const BIT_LEN_L
 
 /// Auxiliary points for efficient multiplication algorithm
 /// See: https://hackmd.io/ncuKqRXzR-Cw-Au2fGzsMg
-struct MulAux<W: PrimeField, N: PrimeField, const NUMBER_OF_LIMBS: usize, const BIT_LEN_LIMB: usize>
+#[derive(Debug)]
+pub struct MulAux<W: PrimeField, N: PrimeField, const NUMBER_OF_LIMBS: usize, const BIT_LEN_LIMB: usize>
 {
-    to_add: AssignedPoint<W, N, NUMBER_OF_LIMBS, BIT_LEN_LIMB>,
-    to_sub: AssignedPoint<W, N, NUMBER_OF_LIMBS, BIT_LEN_LIMB>,
+    /// ...
+    pub to_add: AssignedPoint<W, N, NUMBER_OF_LIMBS, BIT_LEN_LIMB>,
+    /// ...
+    pub to_sub: AssignedPoint<W, N, NUMBER_OF_LIMBS, BIT_LEN_LIMB>,
 }
 
 /// Constructs `MulAux`
